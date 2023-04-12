@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import water_reservoir
 
 class water_reservoirAdmin(admin.ModelAdmin):
-    list_display = ('name', 'data', 'level', 'volume')
+    list_display = ()
 
 # Register your models here.
 
