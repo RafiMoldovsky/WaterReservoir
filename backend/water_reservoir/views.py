@@ -56,3 +56,9 @@ def reservoirs_with_station_names(request, state):
         data = cursor.fetchall()
         print(data)
     return JsonResponse(data, safe=False)
+def get_reservoirs_for_map(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT site_no, station_nm, dec_long_va, dec_long_va FROM meta_data;");
+        data = cursor.fetchall()
+        print(data)
+    return JsonResponse(data, safe=False)

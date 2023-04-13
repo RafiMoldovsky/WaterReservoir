@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getReservoirsByState, getStationName, getReservoirsAndNamesByState } from './apiClient';
+import { getReservoirsByState, getStationName, getReservoirsAndNamesByState, getReservoirsForMap } from './apiClient';
+import mapboxgl from 'mapbox-gl';
+import MyMap from './components/myMap';
 
 const HomePage = () => {
     const [selectedState, setSelectedState] = useState('');
@@ -7,6 +9,10 @@ const HomePage = () => {
     const [stationNms, setStationNms] = useState([]);
     const [selectedSiteNo, setSelectedSiteNo] = useState("");
     const [selectedStationNm, setSelectedStationNm] = useState("");
+    const [showMap, setShowMap] = useState(false);
+    const handleToggleMap = () => {
+        setShowMap(!showMap);
+      };
     const handleStateChange = async event => {
       const state = event.target.value;
       setSelectedState(state);
@@ -24,7 +30,9 @@ const HomePage = () => {
         setSiteNos([]);
         setStationNms([]);
       }
+      
     };
+
   
 
     const handleSiteChange = (event) => {
@@ -54,7 +62,14 @@ const HomePage = () => {
             ))}
         </select>
         )}
+        <br></br>
+        <br></br>
+        <button onClick={handleToggleMap}>
+        {showMap ? "Hide Map" : "Show Map"}
+      </button>
+      {showMap && <MyMap />}
     </div>
+    
 
   );
 };

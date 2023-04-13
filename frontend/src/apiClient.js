@@ -33,6 +33,18 @@ export const getStationName = async (siteNo) => {
       return [];
     }
   };
+  export const getReservoirsForMap = async () => {
+    try {
+      const response = await apiClient.get(`/api/reservoirs-for-map`);
+      console.log("here");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+  
 
 // Add other API requests here
 // Example:
