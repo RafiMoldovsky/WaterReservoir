@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { getReservoirsByState, getStationName, getReservoirsAndNamesByState, getReservoirsForMap } from './apiClient';
 import mapboxgl from 'mapbox-gl';
 import MyMap from './components/myMap';
+import Autocomplete from './components/AutoComplete';
+
 
 const HomePage = () => {
   const [selectedState, setSelectedState] = useState('');
@@ -10,7 +12,7 @@ const HomePage = () => {
   const [selectedSiteNo, setSelectedSiteNo] = useState("");
   const [selectedStationNm, setSelectedStationNm] = useState("");
   const [showMap, setShowMap] = useState(false);
-  const [searchMethod, setSearchMethod] = useState("site_no");
+  const [searchMethod, setSearchMethod] = useState("map");
 
   const handleToggleMap = () => {
     setShowMap(!showMap);
@@ -58,13 +60,19 @@ const HomePage = () => {
     setSiteNos([]);
     setStationNms([]);
   };
+  function passNameNoHomePage(name, site_no) {
+    setSelectedSiteNo(site_no);
+    setSelectedStationNm(name);
+    console.log(name);
+  }
 
   return (
     <div>
       <h2>Select a Search Method:</h2>
       <select value={searchMethod} onChange={handleSearchMethodChange}>
         <option value="map">Map</option>
-        <option value="state">State</option>
+        <option value="dropdown">nested-dropdown</option>
+        <option value="autocomplete">autocomplete search box</option>
       </select>
       {searchMethod === "map" && (
         <>
@@ -81,7 +89,7 @@ const HomePage = () => {
         )}
         </>
       )}
-      {searchMethod === "state" && (
+      {searchMethod === "dropdown" && (
         <>
           <h2>Select a State:</h2>
           <select value={selectedState} onChange={handleStateChange}>
@@ -103,7 +111,20 @@ const HomePage = () => {
         )}
         </>
       )}
-    <br></br>
+       {searchMethod === "autocomplete" && (
+        <>
+       
+          <h2>Search by Reservoir Name:</h2>
+          { selectedStationNm && (
+        <p>
+          Selected Reservoir: {selectedStationNm} (Site No.{" "}
+          {selectedSiteNo})
+        </p>
+      )}
+          <Autocomplete passNameNo={passNameNoHomePage}/>
+          
+        </>
+      )}
     
 </div>
   );

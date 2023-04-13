@@ -62,3 +62,9 @@ def get_reservoirs_for_map(request):
         data = cursor.fetchall()
         print(data)
     return JsonResponse(data, safe=False)
+def get_reservoirs_for_autocomplete(request):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT site_no, station_nm FROM meta_data;");
+        data = cursor.fetchall()
+        print(data)
+    return JsonResponse(data, safe=False)

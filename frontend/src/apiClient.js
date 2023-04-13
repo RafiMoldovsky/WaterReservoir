@@ -42,6 +42,15 @@ export const getStationName = async (siteNo) => {
       return [];
     }
   };
+  export const getReservoirsForAutocomplete = async () => {
+    try {
+      const response = await apiClient.get(`/api/reservoirs-for-autocomplete/`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
   
 
 // Add other API requests here
