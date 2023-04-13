@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from water_reservoir import views
+from water_reservoir.views import update_data
 router = routers.DefaultRouter()
 router.register(r'todos',views.ReservoirView, 'todo')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('update-data/', update_data, name='update_data'),
 ]
