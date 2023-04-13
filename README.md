@@ -30,7 +30,7 @@ cd ../frontend
 npm install
 
 **Usage**
-1. Start the Django development server.  
+1. In the backend directory, start the Django development server.  
 python manage.py runserver
 
 2. In a separate terminal, change into the frontend directory and start the React development server.  
