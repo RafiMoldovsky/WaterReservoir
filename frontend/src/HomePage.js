@@ -13,6 +13,12 @@ const HomePage = () => {
     const handleToggleMap = () => {
         setShowMap(!showMap);
       };
+      const handleMapClick = (data) => {
+        const { site_no, station_nm, state_code } = data;
+        setSelectedSiteNo(site_no);
+        setSelectedStationNm(station_nm);
+        setShowMap(false);
+      };
     const handleStateChange = async event => {
       const state = event.target.value;
       setSelectedState(state);
@@ -66,8 +72,15 @@ const HomePage = () => {
         <br></br>
         <button onClick={handleToggleMap}>
         {showMap ? "Hide Map" : "Show Map"}
-      </button>
-      {showMap && <MyMap />}
+        </button>
+      {showMap && <MyMap onMapClick={handleMapClick} />}
+      {selectedSiteNo && (
+        <div>
+          <h2>Selected Reservoir:</h2>
+          <p>Site No: {selectedSiteNo}</p>
+          <p>Station Name: {selectedStationNm}</p>
+        </div>
+      )}
     </div>
     
 
