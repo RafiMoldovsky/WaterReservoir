@@ -5,7 +5,12 @@ import requests
 from datetime import date
 from datetime import timedelta
 
-
+def is_float(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
 def get_reservoir_data(state_code, start_date, end_date):
     url = f'https://waterservices.usgs.gov/nwis/dv/?format=rdb&stateCd={state_code}&startDT={start_date}&endDT={end_date}&parameterCd=00054&siteStatus=active'
     response = requests.get(url)
@@ -16,11 +21,12 @@ def get_reservoir_data(state_code, start_date, end_date):
             row_data = row.split('\t')
             if not row_data[0]=='agency_cd' and not row_data[0]=='5s':
                 if len(row_data) == 5:
+                    storage_volume = float(row_data[3]) if is_float(row_data[3]) else None
                     parsed_data.append({
                         'agency_cd':row_data[0],
                         'site_id': row_data[1],
                         'date_time': row_data[2],
-                        'storage_volume': row_data[3],
+                        'storage_volume': storage_volume,
                         'value_estimated': row_data[4]
                     })
     return parsed_data
