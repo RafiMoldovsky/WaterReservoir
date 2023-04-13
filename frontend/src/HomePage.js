@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import MyMap from './components/myMap';
 import Autocomplete from './components/AutoComplete';
 import TimeSeriesChart from './components/time_series_chart';
+import MonthlyLevelTable from './components/monthly_level_table';
 
 
 const HomePage = () => {
@@ -129,6 +130,13 @@ const HomePage = () => {
     <>
       <h1>Reservoir Storage Data</h1>
       <TimeSeriesChart reservoirId={selectedSiteNo} />
+    </>
+  )}
+  <br></br>
+  {selectedStationNm && (
+    <>
+      <h1>Monthly Average Reservoir Storage</h1>
+      <MonthlyLevelTable siteId={selectedSiteNo} />
     </>
   )}
 </div>
