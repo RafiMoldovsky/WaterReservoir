@@ -51,6 +51,15 @@ export const getStationName = async (siteNo) => {
       return [];
     }
   };
+  export const getReservoirDailyOverTime = async (site_no, start_date, end_date) => {
+    try {
+      const response = await apiClient.get(`/api/get_reservoir_daily_over_time/${site_no}/${start_date}/${end_date}/`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
   
 
 // Add other API requests here

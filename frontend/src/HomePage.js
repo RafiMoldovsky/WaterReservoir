@@ -3,6 +3,7 @@ import { getReservoirsByState, getStationName, getReservoirsAndNamesByState, get
 import mapboxgl from 'mapbox-gl';
 import MyMap from './components/myMap';
 import Autocomplete from './components/AutoComplete';
+import TimeSeriesChart from './components/time_series_chart';
 
 
 const HomePage = () => {
@@ -125,6 +126,14 @@ const HomePage = () => {
           
         </>
       )}
+      <div>
+  {selectedStationNm && (
+    <>
+      <h1>Reservoir Storage Data</h1>
+      <TimeSeriesChart reservoirId={selectedSiteNo} />
+    </>
+  )}
+</div>
     
 </div>
   );

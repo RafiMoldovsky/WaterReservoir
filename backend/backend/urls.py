@@ -35,4 +35,6 @@ urlpatterns = [
     path('api/reservoirs-with-station-names/<str:state>/', views.reservoirs_with_station_names, name='reservoirs_with_station_names'),
     path('api/reservoirs-for-map/', views.get_reservoirs_for_map, name='get_reservoirs_for_map'),
     path('api/reservoirs-for-autocomplete/', views.get_reservoirs_for_autocomplete, name='get_reservoirs_for_autocomplete'),
+    path('api/get_reservoir_daily_over_time/<str:site_id>/<str:start_date>/<str:end_date>/', views.get_reservoir_daily_over_time, name='get_reservoir_daily_over_time'),
+
 ]

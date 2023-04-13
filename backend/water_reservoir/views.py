@@ -68,3 +68,9 @@ def get_reservoirs_for_autocomplete(request):
         data = cursor.fetchall()
         print(data)
     return JsonResponse(data, safe=False)
+def get_reservoir_daily_over_time(request, site_id, start_date, end_date):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT storage_volume, date_time FROM daily_data WHERE site_id = %s AND date_time >= %s AND date_time <= %s", [site_id, start_date, end_date]);
+        data = cursor.fetchall()
+        print(data)
+    return JsonResponse(data, safe=False)
