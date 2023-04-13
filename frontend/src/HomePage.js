@@ -1,41 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getReservoirsByState, getStationName, getReservoirsAndNamesByState } from './apiClient';
 
 const HomePage = () => {
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedReservoir, setSelectedReservoir] = useState('');
+    const [selectedState, setSelectedState] = useState('');
+    const [siteNos, setSiteNos] = useState([]);
+    const [stationNms, setStationNms] = useState([]);
+    const [selectedSiteNo, setSelectedSiteNo] = useState("");
+    const [selectedStationNm, setSelectedStationNm] = useState("");
+    const handleStateChange = async event => {
+      const state = event.target.value;
+      setSelectedState(state);
+      setSiteNos([]);
+      setStationNms([]);
+      setSiteNos(["querying"]);
+      setStationNms(["querying"]);
+      if (state) {
+        const data = await getReservoirsAndNamesByState(state);
+        const siteNos = data.flatMap(([site_no]) => site_no);
+        const stationNms = data.flatMap(([, station_nm]) => station_nm);
+        setSiteNos(siteNos);
+        setStationNms(stationNms);
+      } else {
+        setSiteNos([]);
+        setStationNms([]);
+      }
+    };
+  
 
-  const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
-  };
-
-  const handleReservoirChange = (event) => {
-    setSelectedReservoir(event.target.value);
-  };
+    const handleSiteChange = (event) => {
+        const selectedOption = event.target.value;
+        const { site_no, station_nm } = JSON.parse(selectedOption);
+        setSelectedSiteNo(site_no);
+        setSelectedStationNm(station_nm);
+      };
 
   return (
     <div>
-      <h1>Reservoir Storage Data</h1>
-      <label htmlFor="state-select">Select a state:</label>
-      <select id="state-select" value={selectedState} onChange={handleStateChange}>
-        <option value="">-- Select a state --</option>
-        <option value="AZ">Arizona</option>
-        <option value="CA">California</option>
-        <option value="NM">New Mexico</option>
-        {/* add more options here */}
+      <h2>Select a State:</h2>
+      <select value={selectedState} onChange={handleStateChange}>
+        <option value="">--Select a State--</option>
+        <option value="ca">California</option>
+        <option value="nm">New Mexico</option>
+        <option value="az">Arizona</option>
       </select>
-
+      <h2>Site Numbers and Station Names:</h2>
       {selectedState && (
-        <div>
-          <label htmlFor="reservoir-select">Select a reservoir:</label>
-          <select id="reservoir-select" value={selectedReservoir} onChange={handleReservoirChange}>
-            <option value="">-- Select a reservoir --</option>
-            {/* add options for reservoirs based on selected state */}
-          </select>
-        </div>
-      )}
-
-      {/* add chart component here */}
+        <select value={JSON.stringify({ site_no: selectedSiteNo, station_nm: selectedStationNm })} onChange={handleSiteChange}>
+          <option value="">--Select an option--</option>
+          {siteNos.map((site_no, index) => (
+            <option key={site_no} value={JSON.stringify({ site_no, station_nm: stationNms[index] })}>
+                {`${site_no} - ${stationNms[index]}`}
+            </option>
+            ))}
+        </select>
+        )}
     </div>
+
   );
 };
 
