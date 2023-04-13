@@ -74,3 +74,9 @@ def get_reservoir_daily_over_time(request, site_id, start_date, end_date):
         data = cursor.fetchall()
         print(data)
     return JsonResponse(data, safe=False)
+def get_reservoir_monthly_over_time(request, site_id):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT EXTRACT(YEAR FROM date_time) AS year, EXTRACT(MONTH FROM date_time) AS month, AVG(storage_volume) AS avg_storage FROM daily_data WHERE site_id = %s AND EXTRACT(YEAR FROM date_time) IN (2018, 2019, 2020, 2021, 2022, 2023) GROUP BY year, month ORDER BY year ASC, month ASC;", [site_id]);
+        data = cursor.fetchall()
+        print(data)
+    return JsonResponse(data, safe=False)

@@ -3,6 +3,7 @@ import { getReservoirsForAutocomplete } from "../apiClient";
 
 function Autocomplete({passNameNo}) {
   const [inputValue, setInputValue] = useState("");
+  const [done, setDone] = useState(false);
   const [options, setOptions] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [reservoir, setReservoir] = useState([]); // Where these reservoirs are ['site_no','station_nm']
@@ -20,6 +21,7 @@ function Autocomplete({passNameNo}) {
   }, []);
 
   function handleChange(event) {
+    setDone(false);
     setInputValue(event.target.value);
     if (event.keyCode === 8) { // Backspace key code is 8
       setOptions(reservoir.flatMap(([, station_nm]) => station_nm));
@@ -38,15 +40,15 @@ function Autocomplete({passNameNo}) {
     setSelectedName(selectedOption);
     const selectedReservoir = reservoir.find((pair) => pair[1] === selectedOption);
     const selectedSiteNo = selectedReservoir ? selectedReservoir[0] : null;
-    console.log(selectedOption);
     passNameNo(selectedOption, selectedSiteNo);
+    setDone(true);
   }
 
 
   return (
     <div>
     <input type="text" value={inputValue} onChange={handleChange} onKeyDown={handleChange} />
-    {options.length > 0 && (
+    {options.length > 0 && !done && (
       <ul>
         {options.map((option) => (
           <li key={option} onClick={() => handleOptionClick(option)} style={{ cursor: "pointer" }}>

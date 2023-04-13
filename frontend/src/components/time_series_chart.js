@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getReservoirDailyOverTime } from "../apiClient";
 import Chart from "chart.js/auto";
 
@@ -10,8 +10,8 @@ let year = date.getFullYear();
 let currentDate = `${year}-${month}-${day}`;
 
 function TimeSeriesChart({ reservoirId }) {
+  const chartRef = useRef(null);
   const [chartData, setChartData] = useState(null);
-
   useEffect(() => {
     async function fetchData() {
       const dailyData = await getReservoirDailyOverTime(
@@ -25,6 +25,14 @@ function TimeSeriesChart({ reservoirId }) {
     fetchData();
   }, [reservoirId]);
 
+  // Check if Chart object already exists and destroy it if it does
+  useEffect(() => {
+    const chartInstance = chartRef.current?.chartInstance;
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+  }, [reservoirId]);
+
   function createChartData(dailyData) {
     const chartData = {
       labels: [],
@@ -32,9 +40,14 @@ function TimeSeriesChart({ reservoirId }) {
       trendLine: [],
     };
     const dataPoints = dailyData.map((d) => ({
-      x: new Date(d[0]),
-      y: d[1],
+      x: new Date(d[1]),
+      y: d[0],
     }));
+    // Convert date format to "yyyy-mm-dd"
+    for (let i = 0; i < dataPoints.length; i++) {
+      const date = dataPoints[i].x.toISOString().slice(0, 10);
+      dataPoints[i].x = date;
+    }
     const movingAvg = calculateMovingAverage(dataPoints, 7);
     for (const dp of dataPoints) {
       chartData.labels.push(dp.x);
@@ -61,8 +74,8 @@ function TimeSeriesChart({ reservoirId }) {
 
   useEffect(() => {
     if (chartData) {
-      const ctx = document.getElementById("chart").getContext("2d");
-      new Chart(ctx, {
+      const ctx = chartRef.current.getContext('2d');
+      const myChart = new Chart(ctx, {
         type: "line",
         data: {
           labels: chartData.labels,
@@ -83,14 +96,37 @@ function TimeSeriesChart({ reservoirId }) {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          scales: {
+            xAxes: [{
+                type: 'time',
+                time: {
+                    unit: 'day'
+                },
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+          },
+          // Set height and width of chart
+          height: 800,
+          width: 800
         },
       });
+      
+      // Return a function to destroy the chart instance when component unmounts
+      return () => {
+        myChart.destroy();
+      };
     }
   }, [chartData]);
 
+
+         
   return (
     <div>
-      <canvas id="chart"></canvas>
+      <canvas id="chart" ref={chartRef}></canvas>
     </div>
   );
 }

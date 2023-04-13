@@ -36,5 +36,6 @@ urlpatterns = [
     path('api/reservoirs-for-map/', views.get_reservoirs_for_map, name='get_reservoirs_for_map'),
     path('api/reservoirs-for-autocomplete/', views.get_reservoirs_for_autocomplete, name='get_reservoirs_for_autocomplete'),
     path('api/get_reservoir_daily_over_time/<str:site_id>/<str:start_date>/<str:end_date>/', views.get_reservoir_daily_over_time, name='get_reservoir_daily_over_time'),
+    path('api/get_reservoir_monthly_over_time/<str:site_id>/', views.get_reservoir_monthly_over_time, name='get_reservoir_daily_over_time'),
 
 ]

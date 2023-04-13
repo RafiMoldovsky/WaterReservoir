@@ -23,7 +23,6 @@ const HomePage = () => {
     const { site_no, station_nm, state_code } = data;
     setSelectedSiteNo(site_no);
     setSelectedStationNm(station_nm);
-    setShowMap(false);
   };
 
   const handleStateChange = async event => {
@@ -64,7 +63,6 @@ const HomePage = () => {
   function passNameNoHomePage(name, site_no) {
     setSelectedSiteNo(site_no);
     setSelectedStationNm(name);
-    console.log(name);
   }
 
   return (
