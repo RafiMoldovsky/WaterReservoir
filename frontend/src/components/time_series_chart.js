@@ -61,13 +61,23 @@ function TimeSeriesChart({ reservoirId }) {
     const movingAvg = new Map();
     let sum = 0;
     for (let i = 0; i < days - 1; i++) {
-      sum += dataPoints[i].y;
+        if(dataPoints[i])
+        {
+            sum += dataPoints[i].y;
+        }
     }
     for (let i = days - 1; i < dataPoints.length; i++) {
-      sum += dataPoints[i].y;
+        if(dataPoints[i])
+        {
+            sum += dataPoints[i].y;
+        }
       const avg = sum / days;
       movingAvg.set(dataPoints[i].x, avg);
-      sum -= dataPoints[i - days + 1].y;
+      
+      if(dataPoints[i - days + 1])
+        {
+            sum -= dataPoints[i - days + 1].y;
+        }
     }
     return movingAvg;
   }
