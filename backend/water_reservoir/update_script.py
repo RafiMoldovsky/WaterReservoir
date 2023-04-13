@@ -43,15 +43,15 @@ nm_reservoir_data = get_reservoir_data('nm', date.today() - timedelta(days = 1),
 cur = conn.cursor()
 for data in az_reservoir_data:
     if data['date_time'] != 'datetime':
-        cur.execute("INSERT INTO water_reservoir (state_code, agency_cd, site_id, date_time, storage_volume, value_estimated) VALUES (%s, %s, %s, %s, %s, %s)",
+        cur.execute("INSERT INTO daily_data (state_code, agency_cd, site_id, date_time, storage_volume, value_estimated) VALUES (%s, %s, %s, %s, %s, %s)",
                     ('az',data['agency_cd'], data['site_id'], data['date_time'], data['storage_volume'],data['value_estimated']))
 for data in ca_reservoir_data:
     if data['date_time'] != 'datetime':
-        cur.execute("INSERT INTO water_reservoir (state_code, agency_cd, site_id, date_time, storage_volume, value_estimated) VALUES (%s, %s, %s, %s, %s, %s)",
+        cur.execute("INSERT INTO daily_data (state_code, agency_cd, site_id, date_time, storage_volume, value_estimated) VALUES (%s, %s, %s, %s, %s, %s)",
                     ('ca',data['agency_cd'], data['site_id'], data['date_time'], data['storage_volume'],data['value_estimated']))
 for data in nm_reservoir_data:
     if data['date_time'] != 'datetime':
-        cur.execute("INSERT INTO water_reservoir (state_code, agency_cd, site_id, date_time, storage_volume, value_estimated) VALUES (%s, %s, %s, %s, %s, %s)",
+        cur.execute("INSERT INTO daily_data (state_code, agency_cd, site_id, date_time, storage_volume, value_estimated) VALUES (%s, %s, %s, %s, %s, %s)",
                     ('nm',data['agency_cd'], data['site_id'], data['date_time'], data['storage_volume'],data['value_estimated']))
 conn.commit()
 cur.close()

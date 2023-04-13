@@ -19,11 +19,15 @@ from django.urls import path, include
 from rest_framework import routers
 from water_reservoir import views
 from water_reservoir.views import update_data
+from water_reservoir.views import upload_data
+from water_reservoir.views import upload_meta_data
 router = routers.DefaultRouter()
-router.register(r'todos',views.ReservoirView, 'todo')
+router.register(r'reservoir',views.ReservoirView, 'reservoir')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('update-data/', update_data, name='update_data'),
+    path('upload-data/', upload_data, name='upload_data'),
+    path('upload-meta-data/', upload_meta_data, name='upload_meta_data'),
 ]
