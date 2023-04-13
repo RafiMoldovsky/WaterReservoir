@@ -33,9 +33,6 @@ const MonthlyLevelTable = ({ siteId }) => {
     if (prevValue === 0) return "0";
     return (((currValue - prevValue) / prevValue) * 100).toFixed(2) + "%";
   };
-  console.log(monthlyData);
-  console.log(yearData);
-  console.log(volumeData);
   const years = ["2018", "2019", "2020", "2021", "2022", "2023"];
   const months = [
     "January",
@@ -54,8 +51,6 @@ const MonthlyLevelTable = ({ siteId }) => {
   const data = months.map((month,i) =>
   {
 
-    console.log(yearData);
-    console.log(monthlyData);
     const row=[months[i]];
     for(var j=0; j<6; j++)
     {
