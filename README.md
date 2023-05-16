@@ -11,10 +11,10 @@ Before you can run this project, you'll need to have the following installed:
 
 **Installation**
 1. Clone this repository to your local machine.  
-git clone https://github.com/RafiMoldovsky/TrabusTechCodingChallenge.git
+git clone https://github.com/RafiMoldovsky/WaterReservoir.git
 
 2. Change into the project directory.  
-cd TrabusTechCodingChallenge
+cd WaterReservoir
 
 3. Change into the backend directory.  
 cd backend
