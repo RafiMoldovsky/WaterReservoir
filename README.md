@@ -1,4 +1,4 @@
-**Coding Challenge TRABUS Technologies**
+**Water Reservoir Coding Challenge**
 
 This is a web application that uses a Django backend and a React frontend to analyze and visualize water reservoir storage data at various water reservoirs in New Mexico, Arizona, and California.
 
